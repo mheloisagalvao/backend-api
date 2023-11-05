@@ -1,7 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import express from 'express';
 import { v4 as uuidv4 } from 'uuid';
-import dotenv from 'dotenv';
 import cors from 'cors';
 
 const PORT = process.env.PORT || 3000;
