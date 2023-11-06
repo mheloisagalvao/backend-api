@@ -41,8 +41,8 @@ app.post('/alunos', async (req, res) => {
 
 app.get('/alunos', async (req, res) => {
   try{
-  const alunos = await prisma.alunos.findMany();
-  res.json(alunos);
+  const aluno = await prisma.aluno.findMany();
+  res.json(aluno);
 } catch(error) {
   console.error('Erro ao procurar alunos',error);
   res.status(500).json({error: 'Erro ao procurar alunos'});
