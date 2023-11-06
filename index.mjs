@@ -40,16 +40,13 @@ app.post('/alunos', async (req, res) => {
 });
 
 app.get('/alunos', async (req, res) => {
-  const alunosComCurso = await prisma.$queryRaw`
-    SELECT
-      "Aluno".id AS "id",
-      "Aluno".nome AS "nome",
-      "Aluno".cursoId AS "curso.id",
-      "Curso".nome AS "curso.nome"
-    FROM "Aluno"
-    LEFT JOIN "Curso" ON "Aluno"."cursoId" = "Curso"."id"
-  `;
-  res.json(alunosComCurso);
+  try{
+  const alunos = await prisma.alunos.findMany();
+  res.json(alunos);
+} catch(error) {
+  console.error('Erro ao procurar alunos',error);
+  res.status(500).json({error: 'Erro ao procurar alunos'});
+}
 });
 
 app.get('/alunos/:id', async (req, res) => {
