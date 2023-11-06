@@ -50,20 +50,24 @@ app.get('/alunos', async (req, res) => {
 });
 
 app.get('/alunos/:id', async (req, res) => {
-
-  try {	
-  const { id } = req.params;
-  const aluno = await prisma.aluno.findUnique({
-    where: {
-      id: Number(id),
-    },
-  });
-  res.json(aluno);
-} catch(error) {
-  console.error('Não existe aluno com este id', error);
-  res.status(500).json({ error: 'Não existe aluno com este id'});
-}
+  try {
+    const { id } = req.params;
+    const aluno = await prisma.aluno.findUnique({
+      where: {
+        id: Number(id),
+      },
+    });
+    if (aluno) {
+      res.json(aluno);
+    } else {
+      res.status(404).json({ error: 'Aluno não encontrado' });
+    }
+  } catch (error) {
+    console.error('Erro ao buscar o aluno:', error);
+    res.status(500).json({ error: 'Ocorreu um erro ao buscar o aluno' });
+  }
 });
+
 
 app.put('/alunos/:id', async (req, res) => {
   const { id } = req.params;
