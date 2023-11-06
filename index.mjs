@@ -50,6 +50,8 @@ app.get('/alunos', async (req, res) => {
 });
 
 app.get('/alunos/:id', async (req, res) => {
+
+  try {	
   const { id } = req.params;
   const aluno = await prisma.aluno.findUnique({
     where: {
@@ -57,6 +59,10 @@ app.get('/alunos/:id', async (req, res) => {
     },
   });
   res.json(aluno);
+} catch(error) {
+  console.error('Não existe aluno com este id', error);
+  res.status(500).json({ error: 'Não existe aluno com este id'});
+}
 });
 
 app.put('/alunos/:id', async (req, res) => {
